@@ -28,15 +28,19 @@ def createCircleTarget():
     cv2.circle(frame,(320,240),2,(255,0,0),2)
 
 def informAction( x1, x2 ):
-    quadOfLine = round(x2 / 64)
-    #print("[X1] {" x1 "} [X2] {" x2 "} [response] {" quadOfLine "}")
+    sizeOfParts = 32
+    target = 13
+    quadOfLine = round(x2 / sizeOfParts)
+    print(quadOfLine)
 
-    if (quadOfLine > 7):
-        return "POINT{%d} GO TO RIGHT VEI" % (quadOfLine)
-    elif (quadOfLine < 6):
-        return  "POINT{%d} GO TO LEFT VEI" % (quadOfLine)
-    else:
-        return  "POINT{%d} AEE, SIGA EM FRENTE" % (quadOfLine)
+    proportional = target - quadOfLine 
+
+    if (proportional == 0):
+        return "POINT[%d] AEE, SIGA EM FRENTE" % (proportional)
+    if (proportional < 0):
+        return "POINT[%d] GO TO RIGHT VEI" % (proportional)
+    elif (proportional > 0):
+        return "POINT[%d] GO TO LEFT VEI" % (proportional)
 
 
 
@@ -49,7 +53,7 @@ while True:
     #Blur image to reduce noise. if Kernel_size is bigger the image will be more blurry
     blurred = cv2.GaussianBlur(gray, (Kernel_size, Kernel_size), 0)
     
-    #Perform canny edge-detection.
+    #Perform ca+nny edge-detection.
     #If a pixel gradient is higher than high_threshold is considered as an edge.
     #if a pixel gradient is lower than low_threshold is is rejected , it is not an edge.
     #Bigger high_threshold values will provoque to find less edges.
@@ -78,7 +82,7 @@ while True:
             cv2.line(frame,(x1,y1),(x2,y2),(0,255,0),2)
             #cv2.putText(frame,'lines_detected Viu alek',(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),1)
             response = informAction( x1, x2 )
-            print(response)
+            #print(response)
 
     cv2.putText(frame, response,(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),1)
     cv2.imshow("line detect test", frame)
