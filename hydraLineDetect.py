@@ -21,6 +21,13 @@ response = "NO LINE"
 #Initialize camera
 video_capture = cv2.VideoCapture(0)
 
+def drawGrid(frame, cv2):
+    #With this for loops a grid is painted on the picture
+    for y in range(0,480,40):
+        cv2.line(frame,(0,y),(640,y),(255,0,0),1)
+        for x in range(0,640,40):
+            cv2.line(frame,(x,0),(x,480),(255,0,0),1)
+
 def createCircleTarget():
     #Draw cicrcles in the center of the picture
     cv2.circle(frame,(320,240),20,(0,0,255),1)
@@ -28,9 +35,11 @@ def createCircleTarget():
     cv2.circle(frame,(320,240),2,(255,0,0),2)
 
 def informAction( x1, x2 ):
+    halfLine = round( (x1 + x2)/2 )
     sizeOfParts = 32
     target = 13
-    quadOfLine = round(x2 / sizeOfParts)
+
+    quadOfLine = round(halfLine / sizeOfParts)
     print(quadOfLine)
 
     proportional = target - quadOfLine 
@@ -69,14 +78,9 @@ while True:
             #for x in range(0,640,20):
                 #cv2.line(frame,(x,y),(x,y),(0,255,255),2)
     
-    #With this for loops a grid is painted on the picture
-    # for y in range(0,480,40):
-    #         cv2.line(frame,(0,y),(640,y),(255,0,0),1)
-    #         for x in range(0,640,40):
-    #             cv2.line(frame,(x,0),(x,480),(255,0,0),1)
+    # drawGrid(frame, cv2)
                 
     #Draw lines on input image
-
     if(lines is not None):
         for x1,y1,x2,y2 in lines[0]:
             cv2.line(frame,(x1,y1),(x2,y2),(0,255,0),2)
