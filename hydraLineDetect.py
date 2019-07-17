@@ -36,8 +36,8 @@ def createCircleTarget():
 
 def informAction( x1, x2 ):
     halfLine = round( (x1 + x2)/2 )
-    sizeOfParts = 32
-    target = 13
+    sizeOfParts = 8
+    target = 55
 
     quadOfLine = round(halfLine / sizeOfParts)
     print(quadOfLine)
