@@ -4,9 +4,9 @@ import numpy as np
 WIDTH = 600
 HEIGHT = 400
 #lower threshold for green
-lower_green=np.array([36, 25, 25])
+lower_green=np.array([36, 35, 35])
 #upper threshold for green
-upper_green=np.array([70, 255, 255])
+upper_green=np.array([100, 255, 255])
 
 def getCoordenates(img):
     points = cv2.findNonZero(img)
@@ -31,13 +31,18 @@ def informAction(y1, y2):
 def detectGreen(img, gray):
 
     mask = cv2.inRange(gray, lower_green, upper_green)
+    cv2.imshow("mask", mask)
 
+    print(mask)
     ## slice the green
     imask = mask>0
     green = np.zeros_like(img, np.uint8)
     green[imask] = img[imask]
-    
+
     cv2.imshow("green detect test", green)
+
+    opening = cv2.morphologyEx(green, cv2.MORPH_CLOSE, kernel)
+    cv2.imshow("morphologyEx", opening)    
 
     point = getCoordenates(mask)
     informAction(point[0], point[2])
@@ -55,10 +60,7 @@ kernel = np.ones((5,5), np.uint8)
 gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
 cv2.imshow("cvtColor", gray)
 
-opening = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
-cv2.imshow("morphologyEx", opening)
-
-detectGreen(opening, gray)
+detectGreen(imgCuted, gray)
 
 cv2.waitKey(0) 
 # edged = cv2.Canny(blurred, low_threshold, high_threshold)
