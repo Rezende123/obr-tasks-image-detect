@@ -28,12 +28,25 @@ def informAction(y1, y2):
     else:
         print("VÁ PARA A DIREITA")
 
+def validationMask(mask):
+    response = False
+
+    for _mask in mask:
+        for value in _mask:
+            if (value != 0):
+                response = True
+
+    return response
+
 def detectGreen(img, gray):
 
     mask = cv2.inRange(gray, lower_green, upper_green)
     cv2.imshow("mask", mask)
 
-    print(mask)
+    if (validationMask(mask) == False):
+        return
+
+    print('PASSOU')
     ## slice the green
     imask = mask>0
     green = np.zeros_like(img, np.uint8)
@@ -63,6 +76,4 @@ cv2.imshow("cvtColor", gray)
 detectGreen(imgCuted, gray)
 
 cv2.waitKey(0) 
-# edged = cv2.Canny(blurred, low_threshold, high_threshold)
-# cv2.imshow("Canny", edged)
 
