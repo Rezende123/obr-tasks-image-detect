@@ -7,6 +7,9 @@ import cv2
 import numpy as np
 import os
 
+WIDTH = 600
+HEIGHT = 400
+
 Kernel_size=15
 low_threshold=40
 high_threshold=120
@@ -16,56 +19,90 @@ threshold=15
 theta=np.pi/180
 minLineLength=10
 maxLineGap=1
+timeGap: float = time.time()
 
-#Initialize camera
-video_capture = cv2.VideoCapture(0)
-
-while True:
-    # CAPTURE FRAME-BY-FRAME
-    ret, frame = video_capture.read()
-    time.sleep(0.1)
-    #Convert to Grayscale
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    #Blur image to reduce noise. if Kernel_size is bigger the image will be more blurry
-    blurred = cv2.GaussianBlur(gray, (Kernel_size, Kernel_size), 0)
-    
-    #Perform canny edge-detection.
-    #If a pixel gradient is higher than high_threshold is considered as an edge.
-    #if a pixel gradient is lower than low_threshold is is rejected , it is not an edge.
-    #Bigger high_threshold values will provoque to find less edges.
-    #Canny recommended ratio upper:lower  between 2:1 or 3:1
-    edged = cv2.Canny(blurred, low_threshold, high_threshold)
-    #Perform hough lines probalistic transform
-    lines = cv2.HoughLinesP(edged,rho,theta,threshold,minLineLength,maxLineGap)
-    
+def createCircleTarget(frame):
     #Draw cicrcles in the center of the picture
     cv2.circle(frame,(320,240),20,(0,0,255),1)
     cv2.circle(frame,(320,240),10,(0,255,0),1)
     cv2.circle(frame,(320,240),2,(255,0,0),2)
-    
-    #With this for loops only a dots matrix is painted on the picture
-    #for y in range(0,480,20):
-            #for x in range(0,640,20):
-                #cv2.line(frame,(x,y),(x,y),(0,255,255),2)
-    
-    #With this for loops a grid is painted on the picture
-    for y in range(0,480,40):
-            cv2.line(frame,(0,y),(640,y),(255,0,0),1)
-            for x in range(0,640,40):
-                cv2.line(frame,(x,0),(x,480),(255,0,0),1)
-                
+
+def imageFilter(image):
+
+    imgCuted = image[0:WIDTH, HEIGHT:WIDTH]
+    cv2.imshow("imgCuted", imgCuted)
+
+    gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
+    cv2.imshow("cvtColor", gray)
+
+    kernel = np.ones((5,5), np.uint8) 
+    opening = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
+    cv2.imshow("morphologyEx", opening)    
+
+    edged = cv2.Canny(opening, low_threshold, high_threshold)
+    cv2.imshow("canny", edged)    
+
+    return edged
+
+def isGapLine(line, timeGap):
+    currentTime = time.time() - timeGap
+    limitTime = 5
+
+    if (currentTime <= limitTime):
+        print("It's gap")
+        return 0
+    else:
+        print("Line not found, return please")
+        return None
+
+def defineAction( x1, x2 ):
+    halfLine = round( (x1 + x2)/2 )
+    sizeOfParts = 8
+    target = 55
+
+    quadOfLine = round(halfLine / sizeOfParts)
+
+    return target - quadOfLine 
+
+def followLine(img, timeGap):
+    response: int
+
+    imageFiltred = imageFilter(img)
+    lines = cv2.HoughLinesP(imageFiltred,rho,theta,threshold,minLineLength,maxLineGap)
+
     #Draw lines on input image
     if(lines is not None):
+        timeGap = time.time()
+
         for x1,y1,x2,y2 in lines[0]:
-            cv2.line(frame,(x1,y1),(x2,y2),(0,255,0),2)
-            cv2.putText(frame,'lines_detected Viu alek',(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),1)
+            cv2.line(imageFiltred,(x1,y1),(x2,y2),(0,255,0),2)
+            response = defineAction( x1, x2 )
 
-    cv2.imshow("line detect test", frame)
+    else:
+        # timeGap = timeGap  
+        response = isGapLine(lines, timeGap)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+    return response
 
-# When everything is done, release the capture
 
-video_capture.release()
-cv2.destroyAllWindows()
+def printAction(_response):
+    if (_response == 0):
+        return "POINT[%d] AEE, SIGA EM FRENTE" % (_response)
+    if (_response < 0):
+        return "POINT[%d] GO TO RIGHT VEI" % (_response)
+    elif (_response > 0):
+        return "POINT[%d] GO TO LEFT VEI" % (_response)
+    elif (_response == None):
+        return "LINE NOT FOUND, RETURN PLEASE" % (_response)
+
+
+## Read
+img = cv2.imread("black.jpg")
+
+response = followLine(img, timeGap)
+
+action = printAction(response)
+print('RESPONSE: ' + str(response))
+print(action)
+
+cv2.waitKey(10000)
