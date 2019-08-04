@@ -72,6 +72,7 @@ def detectGreen(img, gray):
 
     cv2.imshow("green detect test", green)
 
+    kernel = np.ones((5,5), np.uint8) 
     opening = cv2.morphologyEx(green, cv2.MORPH_CLOSE, kernel)
     cv2.imshow("morphologyEx", opening)    
 
@@ -85,12 +86,10 @@ def detectGreen(img, gray):
 
 
 ## Read
-img = cv2.imread("black.jpg")
+img = cv2.imread("greenLeft.jpg")
 
 imgCuted = img[0:WIDTH, HEIGHT:WIDTH]
 cv2.imshow("imgCuted", imgCuted)
-
-kernel = np.ones((5,5), np.uint8) 
 
 gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
 cv2.imshow("cvtColor", gray)
@@ -106,5 +105,5 @@ elif (action == 2):
 else:
     print("DONT HAVE GREEN STRIP")
 
-cv2.waitKey(5000) 
+cv2.waitKey(10000) 
 
