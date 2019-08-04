@@ -91,19 +91,19 @@ def detectGreen(img):
 
 
 
-## Read
-img = cv2.imread("greenBack.jpg")
+# ## Read
+# img = cv2.imread("greenBack.jpg")
 
-action = detectGreen(img)
+# action = detectGreen(img)
 
-if (action == 0):
-    print("TWO GREEN STRIP")
-elif (action == 1):
-    print("GREEN STRIP IN LEFT")
-elif (action == 2):
-    print("GREEN STRIP IN RIGHT")
-else:
-    print("DONT HAVE GREEN STRIP")
+# if (action == 0):
+#     print("TWO GREEN STRIP")
+# elif (action == 1):
+#     print("GREEN STRIP IN LEFT")
+# elif (action == 2):
+#     print("GREEN STRIP IN RIGHT")
+# else:
+#     print("DONT HAVE GREEN STRIP")
 
-cv2.waitKey(10000) 
+# cv2.waitKey(10000) 
 
