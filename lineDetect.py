@@ -1,11 +1,9 @@
-
-
-# -*- coding: utf-8 -*-
 import sys
 import time
 import cv2
 import numpy as np
 import os
+import greenDetect
 
 WIDTH = 600
 HEIGHT = 400
@@ -64,23 +62,36 @@ def defineAction( x1, x2 ):
 
     return target - quadOfLine 
 
+def convertDetectGreenValue(_response):
+    if (_response == 0):
+        return 255
+    elif (_response == 1):
+        return -110
+    elif (_response == 2):
+        return 110
+
 def followLine(img, timeGap):
     response: int
 
-    imageFiltred = imageFilter(img)
-    lines = cv2.HoughLinesP(imageFiltred,rho,theta,threshold,minLineLength,maxLineGap)
+    response = greenDetect.detectGreen(img)
 
-    #Draw lines on input image
-    if(lines is not None):
-        timeGap = time.time()
+    if (response is None):
+        imageFiltred = imageFilter(img)
+        lines = cv2.HoughLinesP(imageFiltred,rho,theta,threshold,minLineLength,maxLineGap)
 
-        for x1,y1,x2,y2 in lines[0]:
-            cv2.line(imageFiltred,(x1,y1),(x2,y2),(0,255,0),2)
-            response = defineAction( x1, x2 )
+        #Draw lines on input image
+        if(lines is not None):
+            timeGap = time.time()
 
+            for x1,y1,x2,y2 in lines[0]:
+                cv2.line(imageFiltred,(x1,y1),(x2,y2),(0,255,0),2)
+                response = defineAction( x1, x2 )
+
+        else:
+            # timeGap = timeGap  
+            response = isGapLine(lines, timeGap)
     else:
-        # timeGap = timeGap  
-        response = isGapLine(lines, timeGap)
+        response = convertDetectGreenValue(response)
 
     return response
 
@@ -88,16 +99,21 @@ def followLine(img, timeGap):
 def printAction(_response):
     if (_response == 0):
         return "POINT[%d] AEE, SIGA EM FRENTE" % (_response)
-    if (_response < 0):
+    if (_response < 0 and _response >= -100):
         return "POINT[%d] GO TO RIGHT VEI" % (_response)
-    elif (_response > 0):
+    elif (_response > 0 and _response <= 100):
         return "POINT[%d] GO TO LEFT VEI" % (_response)
+    elif (_response == 255):
+        return "TWO GREEN, HALF TURN VEI"
+    elif (_response == -110):
+        return "GREEN, LEFT TURN VEI"
+    elif (_response == 110):
+        return "GREEN, RIGHT TURN VEI"
     elif (_response == None):
         return "LINE NOT FOUND, RETURN PLEASE" % (_response)
 
-
 ## Read
-img = cv2.imread("black.jpg")
+img = cv2.imread("green.jpg")
 
 response = followLine(img, timeGap)
 
