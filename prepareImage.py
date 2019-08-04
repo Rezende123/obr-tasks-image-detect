@@ -54,7 +54,13 @@ def validationMask(array):
 
     return response
 
-def detectGreen(img, gray):
+def detectGreen(img):
+
+    imgCuted = img[0:WIDTH, HEIGHT:WIDTH]
+    cv2.imshow("imgCuted", imgCuted)
+
+    gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
+    cv2.imshow("cvtColor", gray)
 
     mask = cv2.inRange(gray, lower_green, upper_green)
     # cv2.imshow("mask", mask)
@@ -64,8 +70,8 @@ def detectGreen(img, gray):
 
     ## slice the green
     imask = mask>0
-    green = np.zeros_like(img, np.uint8)
-    green[imask] = img[imask]
+    green = np.zeros_like(imgCuted, np.uint8)
+    green[imask] = imgCuted[imask]
 
     if (validationMask(green) == False):
         return
@@ -86,15 +92,9 @@ def detectGreen(img, gray):
 
 
 ## Read
-img = cv2.imread("greenLeft.jpg")
+img = cv2.imread("greenBack.jpg")
 
-imgCuted = img[0:WIDTH, HEIGHT:WIDTH]
-cv2.imshow("imgCuted", imgCuted)
-
-gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
-cv2.imshow("cvtColor", gray)
-
-action = detectGreen(imgCuted, gray)
+action = detectGreen(img)
 
 if (action == 0):
     print("TWO GREEN STRIP")
