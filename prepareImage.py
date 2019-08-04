@@ -15,7 +15,6 @@ def getCoordenates(img):
     points = cv2.findNonZero(img)
     
     if (isDubleLine(points.__len__())):
-        print("IS DUBLE GREEN")
         return
 
     avg = np.mean(points, axis=0)
@@ -36,17 +35,22 @@ def informAction(x1, x2):
     print("HALF LINE GREEN " + str(halfLine))
 
     if (halfLine > WIDTH/2):
-        print("VÁ PARA A ESQUERDA")
+        return 1
     else:
-        print("VÁ PARA A DIREITA")
+        return 2
 
-def validationMask(mask):
+def validationMask(array):
     response = False
 
-    for _mask in mask:
-        for value in _mask:
-            if (value != 0):
-                response = True
+    average = np.mean(array, axis=0)
+    
+    for value in average:
+
+        if (type(value).__name__ == 'ndarray'):
+            value = np.mean(value, axis=0)
+
+        if (value > 0.5):
+            response = True
 
     return response
 
@@ -63,6 +67,9 @@ def detectGreen(img, gray):
     green = np.zeros_like(img, np.uint8)
     green[imask] = img[imask]
 
+    if (validationMask(green) == False):
+        return
+
     cv2.imshow("green detect test", green)
 
     opening = cv2.morphologyEx(green, cv2.MORPH_CLOSE, kernel)
@@ -71,14 +78,14 @@ def detectGreen(img, gray):
     point = getCoordenates(mask)
 
     if (point is None):
-        return
+        return 0
 
-    informAction(point[0], point[1])
+    return informAction(point[0], point[1])
 
 
 
 ## Read
-img = cv2.imread("greenBack.jpg")
+img = cv2.imread("black.jpg")
 
 imgCuted = img[0:WIDTH, HEIGHT:WIDTH]
 cv2.imshow("imgCuted", imgCuted)
@@ -88,7 +95,16 @@ kernel = np.ones((5,5), np.uint8)
 gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
 cv2.imshow("cvtColor", gray)
 
-detectGreen(imgCuted, gray)
+action = detectGreen(imgCuted, gray)
 
-cv2.waitKey(0) 
+if (action == 0):
+    print("TWO GREEN STRIP")
+elif (action == 1):
+    print("GREEN STRIP IN LEFT")
+elif (action == 2):
+    print("GREEN STRIP IN RIGHT")
+else:
+    print("DONT HAVE GREEN STRIP")
+
+cv2.waitKey(5000) 
 
