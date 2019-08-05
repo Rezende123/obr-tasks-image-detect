@@ -3,8 +3,8 @@ import time
 import cv2
 import numpy as np
 import os
-import greenDetect
-import blackConditionDetect
+import lib.greenDetect as greenDetect
+import lib.blackDetect as blackDetect
 
 WIDTH = 600
 HEIGHT = 400
@@ -73,7 +73,7 @@ def followLine(img, timeGap):
     response = greenDetect.detectGreen(img)
 
     if (response is None):
-        response = blackConditionDetect.detectBlack(img)
+        response = blackDetect.detectBlack(img)
 
     if (response is None):
         imageFiltred = imageFilter(img)
@@ -115,7 +115,7 @@ def printAction(_response):
         return "LINE NOT FOUND, RETURN PLEASE"
 
 ## Read
-img = cv2.imread("black.jpg")
+img = cv2.imread("image/greenLeft.jpg")
 
 response = followLine(img, timeGap)
 
