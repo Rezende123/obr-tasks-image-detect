@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import os
 import greenDetect
+import blackConditionDetect
 
 WIDTH = 600
 HEIGHT = 400
@@ -63,11 +64,16 @@ def convertDetectGreenValue(_response):
         return -110
     elif (_response == 2):
         return 110
+    else:
+        return _response
 
 def followLine(img, timeGap):
     response: int
 
     response = greenDetect.detectGreen(img)
+
+    if (response is None):
+        response = blackConditionDetect.detectBlack(img)
 
     if (response is None):
         imageFiltred = imageFilter(img)
@@ -94,20 +100,22 @@ def printAction(_response):
     if (_response == 0):
         return "POINT[%d] AEE, SIGA EM FRENTE" % (_response)
     elif (_response < 0 and _response >= -100):
-        return "POINT[%d] GO TO RIGHT VEI" % (_response)
+        return "POINT[%d] GO TO RIGHT VEI!" % (_response)
     elif (_response > 0 and _response <= 100):
-        return "POINT[%d] GO TO LEFT VEI" % (_response)
+        return "POINT[%d] GO TO LEFT VEI!" % (_response)
     elif (_response == 255):
-        return "TWO GREEN, HALF TURN VEI"
+        return "TWO GREEN, HALF TURN VEI!"
+    elif (_response == -255):
+        return "BLACK CONDITION, TEST THE FRONT VEI!"
     elif (_response == -110):
-        return "GREEN, LEFT TURN VEI"
+        return "GREEN, LEFT TURN VEI!"
     elif (_response == 110):
-        return "GREEN, RIGHT TURN VEI"
+        return "GREEN, RIGHT TURN VEI!"
     elif (_response == None):
         return "LINE NOT FOUND, RETURN PLEASE"
 
 ## Read
-img = cv2.imread("greenBack.jpg")
+img = cv2.imread("black.jpg")
 
 response = followLine(img, timeGap)
 
