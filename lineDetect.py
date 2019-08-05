@@ -19,12 +19,6 @@ minLineLength=10
 maxLineGap=1
 timeGap: float = time.time()
 
-def createCircleTarget(frame):
-    #Draw cicrcles in the center of the picture
-    cv2.circle(frame,(320,240),20,(0,0,255),1)
-    cv2.circle(frame,(320,240),10,(0,255,0),1)
-    cv2.circle(frame,(320,240),2,(255,0,0),2)
-
 def imageFilter(image):
 
     imgCuted = image[0:WIDTH, HEIGHT:WIDTH]
@@ -99,7 +93,7 @@ def followLine(img, timeGap):
 def printAction(_response):
     if (_response == 0):
         return "POINT[%d] AEE, SIGA EM FRENTE" % (_response)
-    if (_response < 0 and _response >= -100):
+    elif (_response < 0 and _response >= -100):
         return "POINT[%d] GO TO RIGHT VEI" % (_response)
     elif (_response > 0 and _response <= 100):
         return "POINT[%d] GO TO LEFT VEI" % (_response)
@@ -110,10 +104,10 @@ def printAction(_response):
     elif (_response == 110):
         return "GREEN, RIGHT TURN VEI"
     elif (_response == None):
-        return "LINE NOT FOUND, RETURN PLEASE" % (_response)
+        return "LINE NOT FOUND, RETURN PLEASE"
 
 ## Read
-img = cv2.imread("green.jpg")
+img = cv2.imread("greenBack.jpg")
 
 response = followLine(img, timeGap)
 
