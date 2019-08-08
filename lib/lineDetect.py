@@ -18,7 +18,6 @@ threshold=15
 theta=np.pi/180
 minLineLength=10
 maxLineGap=1
-timeGap: float = time.time()
 
 def imageFilter(image):
 
@@ -114,13 +113,16 @@ def printAction(_response):
     elif (_response == None):
         return "LINE NOT FOUND, RETURN PLEASE"
 
-## Read
-img = cv2.imread("image/greenLeft.jpg")
+def main ():
+    timeGap: float = time.time()
+    
+    ## Read
+    img = cv2.imread("image/greenLeft.jpg")
 
-response = followLine(img, timeGap)
+    response = followLine(img, timeGap)
 
-action = printAction(response)
-print('RESPONSE: ' + str(response))
-print(action)
+    action = printAction(response)
+    print('RESPONSE: ' + str(response))
+    print(action)
 
-cv2.waitKey(10000)
+    cv2.waitKey(10000)
