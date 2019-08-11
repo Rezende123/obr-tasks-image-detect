@@ -72,7 +72,7 @@ def followLine(img, timeGap):
     response = greenDetect.detectGreen(img)
 
     if (response is None):
-        response = blackDetect.detectBlack(img)
+        response = blackDetect.detectBlack(img, 15000)
 
     if (response is None):
         imageFiltred = imageFilter(img)
