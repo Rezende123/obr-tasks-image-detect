@@ -66,7 +66,7 @@ def detectGreen(img):
     # cv2.imshow("mask", mask)
 
     if (validationMask(mask) == False):
-        return
+        return 404
 
     ## slice the green
     imask = mask>0
@@ -74,7 +74,7 @@ def detectGreen(img):
     green[imask] = imgCuted[imask]
 
     if (validationMask(green) == False):
-        return
+        return 404
 
     cv2.imshow("green detect test", green)
 

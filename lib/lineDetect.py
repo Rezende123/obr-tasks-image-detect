@@ -45,7 +45,7 @@ def isGapLine(line, timeGap):
         return 0
     else:
         print("Line not found, return please")
-        return None
+        return 404
 
 def defineAction( x1, x2 ):
     halfLine = round( (x1 + x2)/2 )
@@ -71,10 +71,10 @@ def followLine(img, timeGap):
 
     response = greenDetect.detectGreen(img)
 
-    if (response is None):
+    if (response == 404):
         response = blackDetect.detectBlack(img, 15000)
 
-    if (response is None):
+    if (response == 404):
         imageFiltred = imageFilter(img)
         lines = cv2.HoughLinesP(imageFiltred,rho,theta,threshold,minLineLength,maxLineGap)
 
@@ -110,19 +110,21 @@ def printAction(_response):
         return "GREEN, LEFT TURN VEI!"
     elif (_response == 110):
         return "GREEN, RIGHT TURN VEI!"
-    elif (_response == None):
+    elif (_response == 404):
         return "LINE NOT FOUND, RETURN PLEASE"
 
 def main ():
     timeGap: float = time.time()
     
     ## Read
-    img = cv2.imread("image/greenLeft.jpg")
+    img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/blackTurn.jpg")
 
     response = followLine(img, timeGap)
 
-    action = printAction(response)
     print('RESPONSE: ' + str(response))
+    action = printAction(response)
     print(action)
 
     cv2.waitKey(10000)
+
+main()

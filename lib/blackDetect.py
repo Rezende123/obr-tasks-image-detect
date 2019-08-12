@@ -9,7 +9,6 @@ lower_black=np.array([0, 0, 0])
 upper_black=np.array([180, 255, 30])
 
 def isBlackCondition(pointCount, rangePixels):
-    print(pointCount)
     return (pointCount > rangePixels)
 
 def validationMask(array):
@@ -39,7 +38,7 @@ def detectBlack(img, rangePixels):
     # cv2.imshow("mask", mask)
 
     if (validationMask(mask) == False):
-        return
+        return 404
 
     ## slice the black
     imask = mask>0
@@ -47,7 +46,7 @@ def detectBlack(img, rangePixels):
     black[imask] = imgCuted[imask]
 
     if (validationMask(black) == False):
-        return
+        return 404
 
     cv2.imshow("black detect test", black)
 
@@ -60,4 +59,4 @@ def detectBlack(img, rangePixels):
     if (isBlackCondition(points.__len__(), rangePixels)):
         return -255
 
-    return None
+    return 404
