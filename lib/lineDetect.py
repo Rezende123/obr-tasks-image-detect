@@ -3,8 +3,8 @@ import time
 import cv2
 import numpy as np
 import os
-import lib.greenDetect as greenDetect
-import lib.blackDetect as blackDetect
+import greenDetect
+import blackDetect
 
 WIDTH = 600
 HEIGHT = 400
