@@ -67,8 +67,6 @@ def convertDetectGreenValue(_response):
         return _response
 
 def followLine(img, timeGap):
-    response: int
-
     response = greenDetect.detectGreen(img)
 
     if (response == 404):
@@ -114,7 +112,7 @@ def printAction(_response):
         return "LINE NOT FOUND, RETURN PLEASE"
 
 def main ():
-    timeGap: float = time.time()
+    timeGap = time.time()
     
     ## Read
     img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/blackTurn.jpg")
@@ -127,4 +125,4 @@ def main ():
 
     cv2.waitKey(10000)
 
-main()
+#main()
