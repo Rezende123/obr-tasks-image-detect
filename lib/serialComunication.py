@@ -10,7 +10,9 @@ def Write(value):
     ser.write(value)
 
 def Read():
-    response = ser.readline()
+    response = ser.readline().decode('utf-8')
+    response = int(response)
+    
     print("Reading: " + str(response))
 
     return response
