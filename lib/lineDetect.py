@@ -115,7 +115,7 @@ def main ():
     timeGap = time.time()
     
     ## Read
-    img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/blackTurn.jpg")
+    img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/triangle.jpg")
 
     response = followLine(img, timeGap)
 

@@ -5,7 +5,7 @@ sys.path.append('/home/felipe/Documentos/LineDetect/RaspLineDetect/lib/')
 
 import lineDetect
 import blackDetect
-#import serialComunication
+import serialComunication as serial
 
 timeGap = time.time()
 video_capture = cv2.VideoCapture(0)
@@ -28,13 +28,20 @@ def main():
         
         serial.Write(response)
 
-def test():
+def testTriangleDetect():
     global timeGap
 
     img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/triangle.jpg")
+    cv2.imshow("imgCuted", img)
 
     response = selectMode('TriangleDetect', img, timeGap)
 
     print('RESPONSE: ' + str(response))
 
-test()
+def testSertial():
+        serial.Write("OI, ALEK")
+        
+        read = serial.Read()
+        print(read)
+
+testSertial()
