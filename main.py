@@ -39,7 +39,7 @@ def testTriangleDetect():
     print('RESPONSE: ' + str(response))
 
 def testSertial():
-        serial.Write("OI, ALEK")
+        serial.Write(b'3')
         
         read = serial.Read()
         print(read)

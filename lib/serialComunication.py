@@ -1,6 +1,6 @@
 import serial
  
-PORT = "/dev/ttyAMA0"
+PORT = "/dev/ttyUSB0"
 velocity = 9600
 #Configura a serial e a velocidade de transmissao
 ser = serial.Serial(PORT, velocity)
@@ -10,7 +10,7 @@ def Write(value):
     ser.write(value)
 
 def Read():
-    response = ser.readline(value)
+    response = ser.readline()
     print("Reading: " + str(response))
 
     return response
