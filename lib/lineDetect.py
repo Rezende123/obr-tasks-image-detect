@@ -5,6 +5,7 @@ import numpy as np
 import os
 import greenDetect
 import blackDetect
+import imageAjust
 
 WIDTH = 600
 HEIGHT = 400
@@ -67,13 +68,15 @@ def convertDetectGreenValue(_response):
         return _response
 
 def followLine(img, timeGap):
-    response = greenDetect.detectGreen(img)
+    preparedImage = imageAjust.prepare(img)
+
+    response = greenDetect.detectGreen(preparedImage)
 
     if (response == 404):
-        response = blackDetect.detectBlack(img, 15000)
+        response = blackDetect.detectBlack(preparedImage, 15000)
 
     if (response == 404):
-        imageFiltred = imageFilter(img)
+        imageFiltred = imageFilter(preparedImage)
         lines = cv2.HoughLinesP(imageFiltred,rho,theta,threshold,minLineLength,maxLineGap)
 
         #Draw lines on input image
@@ -117,7 +120,9 @@ def main ():
     ## Read
     img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/triangle.jpg")
 
-    response = followLine(img, timeGap)
+    preparedImage = imageAjust.prepare(img)
+
+    response = followLine(preparedImage, timeGap)
 
     print('RESPONSE: ' + str(response))
     action = printAction(response)
@@ -125,4 +130,4 @@ def main ():
 
     cv2.waitKey(10000)
 
-#main()
+main()
