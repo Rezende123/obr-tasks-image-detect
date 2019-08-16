@@ -11,9 +11,9 @@ timeGap = time.time()
 video_capture = cv2.VideoCapture(0)
 
 def selectMode(mode, frame, timeGap):
-    if (mode == 'LineDetect'):
+    if (mode == 1):
         return lineDetect.followLine(frame, timeGap)
-    elif (mode == 'TriangleDetect'):
+    elif (mode == 2):
         return blackDetect.detectBlack(frame, 10000)
 
 def main():
