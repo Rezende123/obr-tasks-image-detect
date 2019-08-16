@@ -1,8 +1,7 @@
 import cv2
 import numpy as np
 
-WIDTH = 600
-HEIGHT = 400
+cropImg = (369, 2, 81, 598)
 #lower threshold for black
 lower_black=np.array([0, 0, 0])
 #upper threshold for black
@@ -28,7 +27,7 @@ def validationMask(array):
 
 def detectBlack(img, rangePixels):
 
-    imgCuted = img[0:WIDTH, HEIGHT:WIDTH]
+    imgCuted = img[int(cropImg[1]):int(cropImg[1]+cropImg[3]), int(cropImg[0]):int(cropImg[0]+cropImg[2])]
     cv2.imshow("imgCuted", imgCuted)
 
     gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)

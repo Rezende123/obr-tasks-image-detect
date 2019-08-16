@@ -7,8 +7,8 @@ def prepare(image):
     return spined
 
 def imageResize(image):
-    r = 100.0 / image.shape[1]
-    dim = (100, int(image.shape[0] * r))
+    r = 800.0 / image.shape[1]
+    dim = (800, int(image.shape[0] * r))
     
     # perform the actual resizing of the image and show it
     return cv2.resize(image, dim, interpolation = cv2.INTER_AREA)

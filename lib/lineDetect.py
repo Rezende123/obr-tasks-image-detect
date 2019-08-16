@@ -7,8 +7,7 @@ import greenDetect
 import blackDetect
 import imageAjust
 
-WIDTH = 600
-HEIGHT = 400
+cropImg = (369, 2, 81, 598)
 
 Kernel_size=15
 low_threshold=40
@@ -22,7 +21,7 @@ maxLineGap=1
 
 def imageFilter(image):
 
-    imgCuted = image[0:WIDTH, HEIGHT:WIDTH]
+    imgCuted = image[int(cropImg[1]):int(cropImg[1]+cropImg[3]), int(cropImg[0]):int(cropImg[0]+cropImg[2])]
     cv2.imshow("imgCuted", imgCuted)
 
     gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
@@ -68,15 +67,15 @@ def convertDetectGreenValue(_response):
         return _response
 
 def followLine(img, timeGap):
-    preparedImage = imageAjust.prepare(img)
+    # preparedImage = imageAjust.prepare(img)
 
-    response = greenDetect.detectGreen(preparedImage)
-
-    if (response == 404):
-        response = blackDetect.detectBlack(preparedImage, 15000)
+    response = greenDetect.detectGreen(img)
 
     if (response == 404):
-        imageFiltred = imageFilter(preparedImage)
+        response = blackDetect.detectBlack(img, 15000)
+
+    if (response == 404):
+        imageFiltred = imageFilter(img)
         lines = cv2.HoughLinesP(imageFiltred,rho,theta,threshold,minLineLength,maxLineGap)
 
         #Draw lines on input image
@@ -118,15 +117,29 @@ def main ():
     timeGap = time.time()
     
     ## Read
-    img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/triangle.jpg")
+    img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/greenRight.jpg")
 
-    preparedImage = imageAjust.prepare(img)
-
-    response = followLine(preparedImage, timeGap)
+    response = followLine(img, timeGap)
 
     print('RESPONSE: ' + str(response))
     action = printAction(response)
     print(action)
+
+    cv2.waitKey(10000)
+
+def calibration():
+    # Read image
+    im = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/greenRight.jpg")
+     
+    # Select ROI
+    cropImg = cv2.selectROI(im)
+    print(cropImg)
+
+    # Crop image
+    imCrop = im[int(cropImg[1]):int(cropImg[1]+cropImg[3]), int(cropImg[0]):int(cropImg[0]+cropImg[2])]
+ 
+    # Display cropped image
+    cv2.imshow("Image", imCrop)
 
     cv2.waitKey(10000)
 
