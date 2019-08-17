@@ -67,15 +67,15 @@ def convertDetectGreenValue(_response):
         return _response
 
 def followLine(img, timeGap):
-    # preparedImage = imageAjust.prepare(img)
+    preparedImage = imageAjust.prepare(img)
 
-    response = greenDetect.detectGreen(img)
+    # response = greenDetect.detectGreen(preparedImage)
+
+    # if (response == 404):
+    response = blackDetect.detectBlack(preparedImage, 15000)
 
     if (response == 404):
-        response = blackDetect.detectBlack(img, 15000)
-
-    if (response == 404):
-        imageFiltred = imageFilter(img)
+        imageFiltred = imageFilter(preparedImage)
         lines = cv2.HoughLinesP(imageFiltred,rho,theta,threshold,minLineLength,maxLineGap)
 
         #Draw lines on input image
@@ -141,6 +141,6 @@ def calibration():
     # Display cropped image
     cv2.imshow("Image", imCrop)
 
-    cv2.waitKey(10000)
+    cv2.waitKey(0)
 
-main()
+#main()

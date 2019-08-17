@@ -2,9 +2,8 @@ import cv2
 
 def prepare(image):
     resized = imageResize(image)
-    spined = imageSpin(resized)
 
-    return spined
+    return resized
 
 def imageResize(image):
     r = 800.0 / image.shape[1]
