@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
+import cropImage
 
-cropImg = (369, 2, 81, 598)
 #lower threshold for green
 lower_green=np.array([36, 35, 35])
 #upper threshold for green
@@ -9,6 +9,7 @@ upper_green=np.array([100, 255, 255])
 
 def isDubleLine(pointCount):
     return (pointCount > 20000)
+    return (pointCount > 60000)
 
 def getCoordenates(img):
     points = cv2.findNonZero(img)
@@ -18,8 +19,8 @@ def getCoordenates(img):
 
     avg = np.mean(points, axis=0)
     # assuming the resolutions of the image and screen are the following
-    resImage = [40, int(cropImg[0])]
-    resScreen = [int(cropImg[1]), int(cropImg[0])]
+    resImage = [40, int(cropImage.cropImg[0])]
+    resScreen = [int(cropImage.cropImg[1]), int(cropImage.cropImg[0])]
 
     if (avg.__len__() == 1): 
         avg = avg[0]
@@ -32,9 +33,9 @@ def getCoordenates(img):
 def informAction(x1, x2):
     halfLine = round( (x1 + x2)/2 )
     print("HALF LINE GREEN " + str(halfLine))
-    print("GREEN " + str(int(cropImg[0])))
+    print("GREEN " + str(int(cropImage.cropImg[0])))
 
-    if (halfLine > int(cropImg[0])/2):
+    if (halfLine > int(cropImage.cropImg[0])/2):
         return 1
     else:
         return 2
@@ -56,7 +57,7 @@ def validationMask(array):
 
 def detectGreen(img):
 
-    imgCuted = img[int(cropImg[1]):int(cropImg[1]+cropImg[3]), int(cropImg[0]):int(cropImg[0]+cropImg[2])]
+    imgCuted = cropImage.crop(img)
     cv2.imshow("imgCuted", imgCuted)
 
     gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)

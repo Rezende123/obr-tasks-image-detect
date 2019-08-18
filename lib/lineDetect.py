@@ -6,8 +6,7 @@ import os
 import greenDetect
 import blackDetect
 import imageAjust
-
-cropImg = (369, 2, 81, 598)
+import cropImage
 
 Kernel_size=15
 low_threshold=40
@@ -21,7 +20,7 @@ maxLineGap=1
 
 def imageFilter(image):
 
-    imgCuted = image[int(cropImg[1]):int(cropImg[1]+cropImg[3]), int(cropImg[0]):int(cropImg[0]+cropImg[2])]
+    imgCuted = cropImage.crop(image)
     cv2.imshow("imgCuted", imgCuted)
 
     gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
@@ -69,10 +68,10 @@ def convertDetectGreenValue(_response):
 def followLine(img, timeGap):
     preparedImage = imageAjust.prepare(img)
 
-    # response = greenDetect.detectGreen(preparedImage)
+    response = greenDetect.detectGreen(preparedImage)
 
-    # if (response == 404):
-    response = blackDetect.detectBlack(preparedImage, 15000)
+    if (response == 404):
+        response = blackDetect.detectBlack(preparedImage, 15000)
 
     if (response == 404):
         imageFiltred = imageFilter(preparedImage)
@@ -117,7 +116,7 @@ def main ():
     timeGap = time.time()
     
     ## Read
-    img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/greenRight.jpg")
+    img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/cameraGreen.jpg")
 
     response = followLine(img, timeGap)
 
@@ -129,18 +128,19 @@ def main ():
 
 def calibration():
     # Read image
-    im = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/greenRight.jpg")
+    im = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/cameraGreen.jpg")
+    preparedImage = imageAjust.prepare(im)
      
     # Select ROI
-    cropImg = cv2.selectROI(im)
+    cropImg = cv2.selectROI(preparedImage)
     print(cropImg)
 
     # Crop image
-    imCrop = im[int(cropImg[1]):int(cropImg[1]+cropImg[3]), int(cropImg[0]):int(cropImg[0]+cropImg[2])]
+    imCrop = preparedImage[int(cropImg[1]):int(cropImg[1]+cropImg[3]), int(cropImg[0]):int(cropImg[0]+cropImg[2])]
  
     # Display cropped image
     cv2.imshow("Image", imCrop)
 
-    cv2.waitKey(0)
+    cv2.waitKey(10000)
 
-#main()
+main()
