@@ -2,6 +2,7 @@ import cv2
 
 def prepare(image):
     resized = imageResize(image)
+    # cv2.convertScaleAbs(resized, resized, 0.3,  0.3)
 
     return resized
 

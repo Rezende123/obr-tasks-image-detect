@@ -3,13 +3,13 @@ import numpy as np
 import cropImage
 
 #lower threshold for green
-lower_green=np.array([36, 35, 35])
+lower_green=np.array([37, 38, 70])
 #upper threshold for green
-upper_green=np.array([100, 255, 255])
+upper_green=np.array([85, 255, 200])
 
 def isDubleLine(pointCount):
+    print(pointCount)
     return (pointCount > 20000)
-    return (pointCount > 60000)
 
 def getCoordenates(img):
     points = cv2.findNonZero(img)
@@ -33,9 +33,9 @@ def getCoordenates(img):
 def informAction(x1, x2):
     halfLine = round( (x1 + x2)/2 )
     print("HALF LINE GREEN " + str(halfLine))
-    print("GREEN " + str(int(cropImage.cropImg[0])))
+    print("GREEN " + str(int(cropImage.cropImg[2])))
 
-    if (halfLine > int(cropImage.cropImg[0])/2):
+    if (halfLine < int(cropImage.cropImg[2])/2):
         return 1
     else:
         return 2
@@ -60,11 +60,11 @@ def detectGreen(img):
     imgCuted = cropImage.crop(img)
     cv2.imshow("imgCuted", imgCuted)
 
-    gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
-    cv2.imshow("cvtColor", gray)
+    hsv = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
+    cv2.imshow("cvtColor", hsv)
 
-    mask = cv2.inRange(gray, lower_green, upper_green)
-    # cv2.imshow("mask", mask)
+    mask = cv2.inRange(hsv, lower_green, upper_green)
+    cv2.imshow("mask", mask)
 
     if (validationMask(mask) == False):
         return 404
