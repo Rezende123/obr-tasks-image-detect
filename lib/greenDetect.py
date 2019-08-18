@@ -8,7 +8,6 @@ lower_green=np.array([37, 38, 70])
 upper_green=np.array([85, 255, 200])
 
 def isDubleLine(pointCount):
-    print(pointCount)
     return (pointCount > 20000)
 
 def getCoordenates(img):
@@ -60,7 +59,11 @@ def detectGreen(img):
     imgCuted = cropImage.crop(img)
     cv2.imshow("imgCuted", imgCuted)
 
-    hsv = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
+    kernel = np.ones((5,5), np.uint8) 
+    morph = cv2.morphologyEx(imgCuted, cv2.MORPH_CLOSE, kernel)
+    cv2.imshow("morphologyEx", morph)  
+
+    hsv = cv2.cvtColor(morph, cv2.COLOR_BGR2HSV)
     cv2.imshow("cvtColor", hsv)
 
     mask = cv2.inRange(hsv, lower_green, upper_green)
@@ -77,11 +80,7 @@ def detectGreen(img):
     if (validationMask(green) == False):
         return 404
 
-    cv2.imshow("green detect test", green)
-
-    kernel = np.ones((5,5), np.uint8) 
-    opening = cv2.morphologyEx(green, cv2.MORPH_CLOSE, kernel)
-    cv2.imshow("morphologyEx", opening)    
+    cv2.imshow("green detect test", green)  
 
     point = getCoordenates(mask)
 

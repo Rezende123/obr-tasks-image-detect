@@ -30,10 +30,14 @@ def detectBlack(img, rangePixels):
     imgCuted = cropImage.crop(img)
     cv2.imshow("imgCuted", imgCuted)
 
-    gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
-    cv2.imshow("cvtColor", gray)
+    kernel = np.ones((5,5), np.uint8) 
+    morph = cv2.morphologyEx(imgCuted, cv2.MORPH_CLOSE, kernel)
+    cv2.imshow("morphologyEx", morph)  
 
-    mask = cv2.inRange(gray, lower_black, upper_black)
+    hsv = cv2.cvtColor(morph, cv2.COLOR_BGR2HSV)
+    cv2.imshow("cvtColor", hsv)
+
+    mask = cv2.inRange(hsv, lower_black, upper_black)
     # cv2.imshow("mask", mask)
 
     if (validationMask(mask) == False):
@@ -48,10 +52,6 @@ def detectBlack(img, rangePixels):
         return 404
 
     cv2.imshow("black detect test", black)
-
-    kernel = np.ones((5,5), np.uint8) 
-    opening = cv2.morphologyEx(black, cv2.MORPH_CLOSE, kernel)
-    cv2.imshow("morphologyEx", opening)  
     
     points = cv2.findNonZero(mask)
     
