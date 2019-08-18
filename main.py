@@ -20,7 +20,7 @@ def main():
     while True:
 
         global timeGap
-        frame = video_capture.read()
+        frame = video_capture.read()[1]
         time.sleep(0.1)
 
         mode = serial.Read()
@@ -44,4 +44,11 @@ def testSertial():
         read = serial.Read()
         print(read)
 
-testSertial()
+def testCam():
+    while True:
+        frame = video_capture.read()[1]
+
+        print (frame)
+        cv2.imshow('CAM', frame)
+
+testCam()
