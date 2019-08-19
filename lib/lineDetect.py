@@ -21,17 +21,17 @@ maxLineGap=1
 def imageFilter(image):
 
     imgCuted = cropImage.crop(image)
-    cv2.imshow("imgCuted", imgCuted)
+    # cv2.imshow("imgCuted", imgCuted)
 
     gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
-    cv2.imshow("cvtColor", gray)
+    # cv2.imshow("cvtColor", gray)
 
     kernel = np.ones((5,5), np.uint8) 
     opening = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
-    cv2.imshow("morphologyEx", opening)    
+    # cv2.imshow("morphologyEx", opening)    
 
     edged = cv2.Canny(opening, low_threshold, high_threshold)
-    cv2.imshow("canny", edged)    
+    # cv2.imshow("canny", edged)    
 
     return edged
 
@@ -139,7 +139,7 @@ def calibration():
     imCrop = preparedImage[int(cropImg[1]):int(cropImg[1]+cropImg[3]), int(cropImg[0]):int(cropImg[0]+cropImg[2])]
  
     # Display cropped image
-    cv2.imshow("Image", imCrop)
+    # cv2.imshow("Image", imCrop)
 
     cv2.waitKey(10000)
 

@@ -24,4 +24,4 @@ while True:
         cv2.line(frame,(x1,y1),(x2,y2),(0,255,0),2)
         cv2.putText(frame,'lines_detected ALEK',(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),1)
 
-    cv2.imshow("line detect test", frame)
+    # cv2.imshow("line detect test", frame)

@@ -110,7 +110,7 @@ while True:
     
     timeGap = isGapLine(lines, timeGap)
 
-    cv2.imshow("line detect test", frame)
+    # cv2.imshow("line detect test", frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break

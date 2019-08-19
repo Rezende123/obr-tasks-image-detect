@@ -57,17 +57,17 @@ def validationMask(array):
 def detectGreen(img):
 
     imgCuted = cropImage.crop(img)
-    cv2.imshow("imgCuted", imgCuted)
+    # cv2.imshow("imgCuted", imgCuted)
 
     kernel = np.ones((5,5), np.uint8) 
     morph = cv2.morphologyEx(imgCuted, cv2.MORPH_CLOSE, kernel)
-    cv2.imshow("morphologyEx", morph)  
+    # cv2.imshow("morphologyEx", morph)  
 
     hsv = cv2.cvtColor(morph, cv2.COLOR_BGR2HSV)
-    cv2.imshow("cvtColor", hsv)
+    # cv2.imshow("cvtColor", hsv)
 
     mask = cv2.inRange(hsv, lower_green, upper_green)
-    cv2.imshow("mask", mask)
+    # cv2.imshow("mask", mask)
 
     if (validationMask(mask) == False):
         return 404
@@ -80,7 +80,7 @@ def detectGreen(img):
     if (validationMask(green) == False):
         return 404
 
-    cv2.imshow("green detect test", green)  
+    # cv2.imshow("green detect test", green)  
 
     point = getCoordenates(mask)
 

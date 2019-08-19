@@ -59,5 +59,6 @@ def testMain():
 
         response = lineDetect.followLine(frame, timeGap)
         print(response)
+        cv2.imshow('CAM', frame)
 
 testMain()
