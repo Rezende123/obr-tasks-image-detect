@@ -35,17 +35,6 @@ def imageFilter(image):
 
     return edged
 
-def isGapLine(line, timeGap):
-    currentTime = time.time() - timeGap
-    limitTime = 5
-
-    if (currentTime <= limitTime):
-        print("It's gap")
-        return 0
-    else:
-        print("Line not found, return please")
-        return 404
-
 def defineAction( x1, x2 ):
     halfLine = round( (x1 + x2)/2 )
     sizeOfParts = 8
