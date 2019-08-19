@@ -86,8 +86,7 @@ def followLine(img, timeGap):
                 response = defineAction( x1, x2 )
 
         else:
-            # timeGap = timeGap  
-            response = isGapLine(lines, timeGap)
+            return 404
     else:
         response = convertDetectGreenValue(response)
 

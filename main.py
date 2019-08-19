@@ -70,7 +70,6 @@ def testMain():
         while True:
                 global timeGap
                 frame = video_capture.read()[1]
-                time.sleep(0.1)
 
                 response = lineDetect.followLine(frame, timeGap)
                 print(response)
