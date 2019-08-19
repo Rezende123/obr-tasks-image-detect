@@ -1,6 +1,7 @@
 import sys
 import time
 import cv2
+import numpy as np
 sys.path.append('/home/felipe/Documentos/LineDetect/RaspLineDetect/lib/')
 
 import lineDetect
@@ -17,16 +18,23 @@ def selectMode(mode, frame, timeGap):
         return blackDetect.detectBlack(frame, 10000)
 
 def main():
-    while True:
+        while True:
 
-        global timeGap
-        frame = video_capture.read()[1]
-        time.sleep(0.1)
+                global timeGap
+                frame = video_capture.read()[1]
+                time.sleep(0.1)
 
-        mode = serial.Read()
-        response = selectMode(mode, frame, timeGap)
-        
-        serial.Write(response)
+                mode = serial.Read()
+                response = selectMode(mode, frame, timeGap)
+                
+                serial.Write(response)
+                
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                        break
+
+        # When everything done, release the capture
+        video_capture.release()
+        cv2.destroyAllWindows()
 
 def testTriangleDetect():
     global timeGap
@@ -45,20 +53,34 @@ def testSertial():
         print(read)
 
 def testCam():
-    while True:
-        frame = video_capture.read()[1]
+        while True:
+                frame = video_capture.read()[1]
 
-        print (frame)
-        cv2.imshow('CAM', frame)
+                print (frame)
+                cv2.imshow('CAM', frame)
+
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                        break
+
+        # When everything done, release the capture
+        video_capture.release()
+        cv2.destroyAllWindows()
 
 def testMain():
-    while True:
-        global timeGap
-        frame = video_capture.read()[1]
-        time.sleep(0.1)
+        while True:
+                global timeGap
+                frame = video_capture.read()[1]
+                time.sleep(0.1)
 
-        response = lineDetect.followLine(frame, timeGap)
-        print(response)
-        cv2.imshow('CAM', frame)
+                response = lineDetect.followLine(frame, timeGap)
+                print(response)
+                cv2.imshow('CAM', frame)
+                
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                        break
+
+        # When everything done, release the capture
+        video_capture.release()
+        cv2.destroyAllWindows()
 
 testMain()
