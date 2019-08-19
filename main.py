@@ -5,10 +5,10 @@ sys.path.append('/home/felipe/Documentos/LineDetect/RaspLineDetect/lib/')
 
 import lineDetect
 import blackDetect
-import serialComunication as serial
+#import serialComunication as serial
 
 timeGap = time.time()
-video_capture = cv2.VideoCapture(0)
+video_capture = cv2.VideoCapture(1)
 
 def selectMode(mode, frame, timeGap):
     if (mode == 1):
@@ -51,4 +51,13 @@ def testCam():
         print (frame)
         cv2.imshow('CAM', frame)
 
-testCam()
+def testMain():
+    while True:
+        global timeGap
+        frame = video_capture.read()[1]
+        time.sleep(0.1)
+
+        response = lineDetect.followLine(frame, timeGap)
+        print(response)
+
+testMain()

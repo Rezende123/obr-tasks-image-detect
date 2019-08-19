@@ -143,4 +143,4 @@ def calibration():
 
     cv2.waitKey(10000)
 
-main()
+# main()
