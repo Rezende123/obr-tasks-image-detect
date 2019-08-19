@@ -8,7 +8,7 @@ import blackDetect
 #import serialComunication as serial
 
 timeGap = time.time()
-video_capture = cv2.VideoCapture(1)
+video_capture = cv2.VideoCapture(0)
 
 def selectMode(mode, frame, timeGap):
     if (mode == 1):
