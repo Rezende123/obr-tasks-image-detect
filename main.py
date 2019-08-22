@@ -1,5 +1,4 @@
 import sys
-import time
 import cv2
 import numpy as np
 sys.path.append('/home/felipe/Documentos/LineDetect/RaspLineDetect/lib/')
@@ -9,12 +8,11 @@ import blackDetect
 import ballTracking
 #import serialComunication as serial
 
-timeGap = time.time()
 video_capture = cv2.VideoCapture(0)
 
-def selectMode(mode, frame, timeGap):
+def selectMode(mode, frame):
     if (mode == 1):
-        return lineDetect.followLine(frame, timeGap)
+        return lineDetect.followLine(frame)
     elif (mode == 2):
         return blackDetect.detectBlack(frame, 10000)
     elif (mode == 3):
@@ -23,12 +21,11 @@ def selectMode(mode, frame, timeGap):
 def main():
         while True:
 
-                global timeGap
                 frame = video_capture.read()[1]
                 time.sleep(0.1)
 
                 mode = serial.Read()
-                response = selectMode(mode, frame, timeGap)
+                response = selectMode(mode, frame)
                 
                 serial.Write(response)
                 
@@ -41,12 +38,10 @@ def main():
 
 #TESTES
 def testTriangleDetect():
-    global timeGap
-
     img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/triangle.jpg")
     cv2.imshow("imgCuted", img)
 
-    response = selectMode('TriangleDetect', img, timeGap)
+    response = selectMode(2, img)
 
     print('RESPONSE: ' + str(response))
 
@@ -72,10 +67,9 @@ def testCam():
 
 def testMain():
         while True:
-                global timeGap
                 frame = video_capture.read()[1]
 
-                response = lineDetect.followLine(frame, timeGap)
+                response = lineDetect.followLine(frame)
                 print(response)
                 cv2.imshow('CAM', frame)
                 

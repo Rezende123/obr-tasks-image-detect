@@ -18,7 +18,6 @@ theta=np.pi/180
 minLineLength=10
 maxLineGap=1
 response = "NO LINE"
-timeGap = time.time()
 
 #Initialize camera
 video_capture = cv2.VideoCapture(0)
@@ -35,22 +34,6 @@ def createCircleTarget():
     cv2.circle(frame,(320,240),20,(0,0,255),1)
     cv2.circle(frame,(320,240),10,(0,255,0),1)
     cv2.circle(frame,(320,240),2,(255,0,0),2)
-
-def isGapLine(line, timeGap):
-    if (line is None):
-        currentTime = time.time() - timeGap
-        limitTime = 5
-
-        # print(currentTime)
-        if (currentTime <= limitTime):
-            cv2.putText(frame, "It's gap",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),1)
-        else:
-            cv2.putText(frame, "Line not found, return please",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),1)
-
-        return timeGap
-
-    else:
-        return time.time()
 
 def informAction( x1, x2 ):
     halfLine = round( (x1 + x2)/2 )
@@ -107,8 +90,6 @@ while True:
             #print(response)
         
         cv2.putText(frame, response,(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),1)
-    
-    timeGap = isGapLine(lines, timeGap)
 
     # cv2.imshow("line detect test", frame)
 

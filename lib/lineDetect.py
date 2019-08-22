@@ -54,7 +54,7 @@ def convertDetectGreenValue(_response):
     else:
         return _response
 
-def followLine(img, timeGap):
+def followLine(img):
     preparedImage = imageAjust.prepare(img)
 
     response = greenDetect.detectGreen(preparedImage)
@@ -68,8 +68,6 @@ def followLine(img, timeGap):
 
         #Draw lines on input image
         if(lines is not None):
-            timeGap = time.time()
-
             for x1,y1,x2,y2 in lines[0]:
                 cv2.line(imageFiltred,(x1,y1),(x2,y2),(0,255,0),2)
                 response = defineAction( x1, x2 )
@@ -100,13 +98,11 @@ def printAction(_response):
     elif (_response == 404):
         return "LINE NOT FOUND, RETURN PLEASE"
 
-def main ():
-    timeGap = time.time()
-    
+def main ():    
     ## Read
     img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/cameraGreenRight.jpg")
 
-    response = followLine(img, timeGap)
+    response = followLine(img)
 
     print('RESPONSE: ' + str(response))
     action = printAction(response)
