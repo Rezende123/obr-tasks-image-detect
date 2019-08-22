@@ -41,7 +41,7 @@ def isGapLine(line, timeGap):
         currentTime = time.time() - timeGap
         limitTime = 5
 
-        print(currentTime)
+        # print(currentTime)
         if (currentTime <= limitTime):
             cv2.putText(frame, "It's gap",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),1)
         else:
@@ -58,7 +58,7 @@ def informAction( x1, x2 ):
     target = 55
 
     quadOfLine = round(halfLine / sizeOfParts)
-    print(quadOfLine)
+    # print(quadOfLine)
 
     proportional = target - quadOfLine 
 

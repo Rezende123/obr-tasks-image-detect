@@ -11,14 +11,14 @@ def tracking(img):
 
     blur = cv2.medianBlur(img,5)
     cimg = cv2.cvtColor(blur,cv2.COLOR_GRAY2BGR)
-    cv2.imshow('gray',cimg)
+    # cv2.imshow('gray',cimg)
 
     kernel = np.ones((5,5), np.uint8) 
     morpho = cv2.morphologyEx(cimg, cv2.MORPH_CLOSE, kernel)
-    cv2.imshow("morphologyEx", morpho)    
+    # cv2.imshow("morphologyEx", morpho)    
 
     edged = cv2.Canny(morpho, low_threshold, high_threshold)
-    cv2.imshow("edged", edged)    
+    # cv2.imshow("edged", edged)    
 
     circles = cv2.HoughCircles(edged,cv2.HOUGH_GRADIENT,1,20,
                                 param1=50,param2=30,minRadius=0,maxRadius=0)
@@ -32,7 +32,7 @@ def tracking(img):
             cv2.circle(cimg,(i[0],i[1]),2,(0,0,255),3)
         
 
-        cv2.imshow('detected circles',cimg)
+        # cv2.imshow('detected circles',cimg)
 
         response = 1
     
