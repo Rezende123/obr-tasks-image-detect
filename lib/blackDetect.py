@@ -27,8 +27,8 @@ def validationMask(array):
 
 def detectBlack(img, rangePixels):
 
-    imgCuted = cropImage.crop(img)
-    # cv2.imshow("imgCuted", imgCuted)
+    imgCuted = cropImage.cropHorizontal(img)
+    cv2.imshow("imgCuted", imgCuted)
 
     kernel = np.ones((5,5), np.uint8) 
     morph = cv2.morphologyEx(imgCuted, cv2.MORPH_CLOSE, kernel)
@@ -38,7 +38,7 @@ def detectBlack(img, rangePixels):
     # cv2.imshow("cvtColor", hsv)
 
     mask = cv2.inRange(hsv, lower_black, upper_black)
-    # # cv2.imshow("mask", mask)
+    cv2.imshow("mask", mask)
 
     if (validationMask(mask) == False):
         return 404

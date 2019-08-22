@@ -20,7 +20,7 @@ maxLineGap=1
 
 def imageFilter(image):
 
-    imgCuted = cropImage.crop(image)
+    imgCuted = cropImage.cropHorizontal(image)
     # cv2.imshow("imgCuted", imgCuted)
 
     gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
@@ -116,7 +116,7 @@ def main ():
 
 def calibration():
     # Read image
-    im = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/cameraGreen.jpg")
+    im = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/cameraLine.jpg")
     preparedImage = imageAjust.prepare(im)
      
     # Select ROI
@@ -131,4 +131,4 @@ def calibration():
 
     cv2.waitKey(10000)
 
-# main()
+calibration()

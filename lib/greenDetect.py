@@ -56,7 +56,7 @@ def validationMask(array):
 
 def detectGreen(img):
 
-    imgCuted = cropImage.crop(img)
+    imgCuted = cropImage.cropHorizontal(img)
     # cv2.imshow("imgCuted", imgCuted)
 
     kernel = np.ones((5,5), np.uint8) 
