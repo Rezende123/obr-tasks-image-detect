@@ -6,7 +6,7 @@ low_threshold=40
 high_threshold=120
 
 def tracking(img):
-    response = 0
+    response = 404
     img = cropImage.cropVertical(img)
 
     blur = cv2.medianBlur(img,5)
@@ -34,7 +34,7 @@ def tracking(img):
 
         # cv2.imshow('detected circles',cimg)
 
-        response = 1
+        response = -255
     
     # if cv2.waitKey(15000) & 0xFF == ord('q'):
     #     cv2.destroyAllWindows()
