@@ -31,8 +31,8 @@ def getCoordenates(img):
 
 def informAction(x1, x2):
     halfLine = round( (x1 + x2)/2 )
-    print("HALF LINE GREEN " + str(halfLine))
-    print("GREEN " + str(int(cropImage.cropImg[2])))
+    # print("HALF LINE GREEN " + str(halfLine))
+    # print("GREEN " + str(int(cropImage.cropImg[2])))
 
     if (halfLine < int(cropImage.cropImg[2])/2):
         return 1
