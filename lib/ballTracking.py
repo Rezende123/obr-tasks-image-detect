@@ -7,7 +7,7 @@ high_threshold=120
 
 def tracking(img):
     response = 0
-    # img = cropImage.cropVertical(
+    img = cropImage.cropVertical(img)
 
     blur = cv2.medianBlur(img,5)
     cimg = cv2.cvtColor(blur,cv2.COLOR_GRAY2BGR)
@@ -36,14 +36,13 @@ def tracking(img):
 
         response = 1
     
-    if cv2.waitKey(15000) & 0xFF == ord('q'):
-        cv2.destroyAllWindows()
+    # if cv2.waitKey(15000) & 0xFF == ord('q'):
+    #     cv2.destroyAllWindows()
 
     return response
 
 
 def test():
-
     img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/ball_gray.jpg",0)
 
     response = tracking(img)

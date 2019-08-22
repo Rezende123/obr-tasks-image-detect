@@ -6,6 +6,7 @@ sys.path.append('/home/felipe/Documentos/LineDetect/RaspLineDetect/lib/')
 
 import lineDetect
 import blackDetect
+import ballTracking
 #import serialComunication as serial
 
 timeGap = time.time()
@@ -16,6 +17,8 @@ def selectMode(mode, frame, timeGap):
         return lineDetect.followLine(frame, timeGap)
     elif (mode == 2):
         return blackDetect.detectBlack(frame, 10000)
+    elif (mode == 3):
+        return ballTracking.tracking(frame)
 
 def main():
         while True:
@@ -36,6 +39,7 @@ def main():
         video_capture.release()
         cv2.destroyAllWindows()
 
+#TESTES
 def testTriangleDetect():
     global timeGap
 
