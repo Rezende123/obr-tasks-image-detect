@@ -31,7 +31,7 @@ Identifica os pontos verdes que podem existir nas interseções da linha, identi
 
 ![VERDE ATRÁS](./image/green-back-detect.jpg)
 
-![BOLA CINZA DE PERTO](./image/green-left-detect.jpg)
+![BOLA CINZA DE PERTO](./image/green-letf-detect.jpg)
 
 ## [lineDetect.py](./lib/lineDetect.py)
 
