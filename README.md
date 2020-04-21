@@ -11,28 +11,43 @@ sudo apt-get install python3-opencv
 
 Responsável por detectar os dois tipos de bolas existentes, pretas e prateadas.
 
-![BOLA PRETA EDGE](./image/ball-black-edge.png)
+### BOLA PRETA EDGE
+![](./image/readme/ball-black-edge.png)
 
-![BOLA PRETA PERTO DO TRIÂNGULO EDGE](./image/ball-black-triangle-edge.png)
+### BOLA PRETA PERTO DO TRIÂNGULO EDGE
+![](./image/readme/ball-black-triangle-edge.png)
 
-![BOLA PRETA PERTO DO TRIÂNGULO CIRCLES](./image/ball-black-triangle-circles.png)
+### BOLA PRETA PERTO DO TRIÂNGULO CIRCLES
+![](./image/readme/ball-black-triangle-circles.png)
 
-![BOLA CINZA PERTO DO TRIÂNGULO EDGE](./image/ball-grey-triangle-edge.png)
+### BOLA CINZA PERTO DO TRIÂNGULO EDGE
+![](./image/readme/ball-grey-triangle-edge.png)
 
-![BOLA CINZA PERTO DO TRIÂNGULO CIRCLES](./image/ball-grey-triangle-circles.png)
+### BOLA CINZA PERTO DO TRIÂNGULO CIRCLES
+![](./image/readme/ball-grey-triangle-circles.png)
 
-![BOLA CINZA DE PERTO](./image/ball-grey-edge.png)
+### BOLA CINZA DE PERTO
+![](./image/readme/ball-grey-edge.png)
 
-![BOLA CINZA DE PERTO](./image/ball-grey-circles.png)
+### BOLA CINZA DE PERTO
+![](./image/readme/ball-grey-circles.png)
 
 ## [greenDetect.py](./lib/greenDetect.py)
 
 Identifica os pontos verdes que podem existir nas interseções da linha, identificando para qual lado o robô deve seguir.
 
-![VERDE ATRÁS](./image/green-back-detect.jpg)
+### VERDE ATRÁS
+![](./image/readme/green-back-detect.jpg)
 
-![BOLA CINZA DE PERTO](./image/green-letf-detect.jpg)
+### VERDE NA ESQUERDA
+![](./image/readme/green-letf-detect.jpg)
 
 ## [lineDetect.py](./lib/lineDetect.py)
 
 Identifica em que ponto da linha o robô está e informa para qual lado ele deve ir para consertar.
+
+### LINHA CANNY
+![](./image/readme/line-canny.jpg)
+
+### LINHA CVT-COLOR
+![](./image/readme/line-cvtColor.jpg)
