@@ -18,20 +18,24 @@ theta=np.pi/180
 minLineLength=10
 maxLineGap=1
 
-def imageFilter(image):
+def imageFilter(image, showImages = False):
 
-    imgCuted = cropImage.cropHorizontal(image)
-    # cv2.imshow("imgCuted", imgCuted)
+    # image = cropImage.cropHorizontal(image)
+    # cv2.imshow("imageCuted", image)
 
-    gray = cv2.cvtColor(imgCuted, cv2.COLOR_BGR2HSV)
-    # cv2.imshow("cvtColor", gray)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     kernel = np.ones((5,5), np.uint8) 
     opening = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
-    # cv2.imshow("morphologyEx", opening)    
 
     edged = cv2.Canny(opening, low_threshold, high_threshold)
-    # cv2.imshow("canny", edged)    
+
+    if (showImages):
+        cv2.imshow("cvtColor", gray)
+        cv2.imshow("morphologyEx", opening)
+        cv2.imshow("canny", edged)
+
+        print("CHEGOU")
 
     return edged
 
@@ -100,7 +104,7 @@ def printAction(_response):
 
 def main ():    
     ## Read
-    img = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/cameraGreenRight.jpg")
+    img = cv2.imread("../image/cameraGreenRight.jpg")
 
     response = followLine(img)
 
@@ -112,7 +116,7 @@ def main ():
 
 def calibration():
     # Read image
-    im = cv2.imread("/home/felipe/Documentos/LineDetect/RaspLineDetect/image/cameraLine.jpg")
+    im = cv2.imread("../image/cameraLine.jpg")
     preparedImage = imageAjust.prepare(im)
      
     # Select ROI
@@ -127,4 +131,30 @@ def calibration():
 
     cv2.waitKey(10000)
 
-calibration()
+def test():
+    print("Para o teste ser bem sucedido escolha uma das imagens da pasta /image:")
+    print("simpleLine")
+    print("simpleLine2")
+    print("cameraLine")
+    fileName = input('Informe a imagem da pasta a ser verificada: ')
+
+    img = cv2.imread(f'../image/{fileName}.jpg')
+
+    img = imageFilter(img, True)
+    lines = cv2.HoughLinesP(img,rho,theta,threshold,minLineLength,maxLineGap)
+    
+    cv2.imshow("HoughLinesP", lines)
+
+    response = 404
+    #Draw lines on input image
+    if(lines is not None):
+        for x1,y1,x2,y2 in lines[0]:
+            cv2.line(img,(x1,y1),(x2,y2),(0,255,0),2)
+            response = defineAction( x1, x2 )
+    
+    
+    print(f'Response: {response}')
+
+    cv2.waitKey(10000)
+
+test()
