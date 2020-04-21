@@ -2,10 +2,11 @@
 
 Usando Visão Computacional para identificar e superar desafios trazidos pela [OBR-2019](http://www.obr.org.br/modalidade-pratica/como-participar-modalidade-pratica/), o controlador utilizado seria uma raspberry por conta da sua capacidade de processar dados e a facilidade na integração com outros hardwares. Os desafios são basicamente identificar: bola, linha preta, fita verde, interseção na linha preta. Além disso está configurada a comunicação serial entre a raspberry e um arduino.
 
-Para testar basta instalar o opencv e você poderá testar os módulos separadamente, através de imagens armazenadas no próprio repositório:
+É necessário instalar o opencv:
 ```
 sudo apt-get install python3-opencv
 ```
+Para testar os módulos separadamente, através de imagens armazenadas no próprio repositório, para isso é só remover o comentário da função _test()_ presente nos arquivos citados a baixo e executar o arquivo usando _python3_.
 
 ## [blackDetect.py](.lib/blackDetect.py)
 
