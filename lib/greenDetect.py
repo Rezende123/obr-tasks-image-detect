@@ -54,33 +54,37 @@ def validationMask(array):
 
     return response
 
-def detectGreen(img):
+def detectGreen(img, showImages = False):
 
-    imgCuted = cropImage.cropHorizontal(img)
-    # cv2.imshow("imgCuted", imgCuted)
+    # img = cropImage.cropHorizontal(img)
+    # cv2.imshow("imgCuted", img)
 
     kernel = np.ones((5,5), np.uint8) 
-    morph = cv2.morphologyEx(imgCuted, cv2.MORPH_CLOSE, kernel)
-    # cv2.imshow("morphologyEx", morph)  
+    morph = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
 
     hsv = cv2.cvtColor(morph, cv2.COLOR_BGR2HSV)
-    # cv2.imshow("cvtColor", hsv)
 
     mask = cv2.inRange(hsv, lower_green, upper_green)
-    # cv2.imshow("mask", mask)
+
+    if (showImages):
+        cv2.imshow("morphologyEx", morph)  
+        cv2.imshow("cvtColor", hsv)
+        cv2.imshow("mask", mask)
+
 
     if (validationMask(mask) == False):
         return 404
 
     ## slice the green
     imask = mask>0
-    green = np.zeros_like(imgCuted, np.uint8)
-    green[imask] = imgCuted[imask]
+    green = np.zeros_like(img, np.uint8)
+    green[imask] = img[imask]
 
     if (validationMask(green) == False):
         return 404
 
-    # cv2.imshow("green detect test", green)  
+    if (showImages):
+        cv2.imshow("green detect test", green)  
 
     point = getCoordenates(mask)
 
@@ -92,10 +96,15 @@ def detectGreen(img):
 
 
 def test():
-    ## Read
-    img = cv2.imread("../image/greenRight.jpg")
+    print("Para o teste ser bem sucedido escolha uma das imagens da pasta /image:")
+    print("greenBack")
+    print("greenLeft")
+    print("greenRight")
+    fileName = input('Informe a imagem da pasta a ser verificada: ')
 
-    action = detectGreen(img)
+    img = cv2.imread(f'../image/{fileName}.jpg')
+
+    action = detectGreen(img, True)
 
     if (action == 0):
         print("TWO GREEN STRIP")
