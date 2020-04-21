@@ -47,7 +47,7 @@ def test():
 
     response = tracking(img)
 
-    if (response == 1):
+    if (response == -255):
         print("HAVE BALL")
     else:
         print("DON'T HAVE BALL")
