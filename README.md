@@ -29,9 +29,9 @@ Responsável por detectar os dois tipos de bolas existentes, pretas e prateadas.
 
 Identifica os pontos verdes que podem existir nas interseções da linha, identificando para qual lado o robô deve seguir.
 
-![VERDE ATRÁS](./image/green-back-detect.png)
+![VERDE ATRÁS](./image/green-back-detect.jpg)
 
-![BOLA CINZA DE PERTO](./image/green-left-detect.png)
+![BOLA CINZA DE PERTO](./image/green-left-detect.jpg)
 
 ## [lineDetect.py](./lib/lineDetect.py)
 
